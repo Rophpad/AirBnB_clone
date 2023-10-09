@@ -8,7 +8,6 @@ Welcome to the AirBnB clone project! This project involves creating a command in
 - [Command Interpreter](#command-interpreter)
 - [Usage](#usage)
 - [Execution](#execution)
-- [License](#license)
 
 ## Introduction
 
@@ -59,7 +58,3 @@ EOF  help  quit
 (hbnb) 
 $
 ```
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
