@@ -35,7 +35,7 @@ To use the command interpreter, follow these steps:
 
 ## Execution
 
-The command interpreter should work in both interactive and non-interactive modes. In interactive mode, the prompt should be `(hbnb)`, and the user can enter various commands. In non-interactive mode, the interpreter should accept commands from standard input.
+The command interpreter works in both interactive and non-interactive modes. In interactive mode, the prompt should be `(hbnb)`, and the user can enter various commands. In non-interactive mode, the interpreter should accept commands from standard input.
 
 Example of interactive mode:
 ```bash
