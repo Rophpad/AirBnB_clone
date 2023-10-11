@@ -2,6 +2,7 @@
 """serializes instances to a JSON file and deserializes
 JSON file to instances"""
 import json
+from datetime import datetime
 
 
 class FileStorage:
@@ -29,14 +30,14 @@ class FileStorage:
         """deserializes the JSON file to __objects (only if the JSON file
         (__file_path) exists ; otherwise, do nothing. If the
         file doesn’t exist"""
+        from models.base_model import BaseModel
         try:
             with open(self.__file_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 for key, value in data.items():
                     class_name, obj_id = key.split('.')
                     Dict = {k: v for k, v in value.items() if k != '__class__'}
-                    cls = globals()[class_name]
-                    obj = cls(**Dict)
+                    obj = BaseModel(**Dict)
                     self.__objects[key] = obj
         except FileNotFoundError:
             pass

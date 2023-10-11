@@ -2,13 +2,14 @@
 """defines all common attributes/methods for other classes"""
 import uuid
 from datetime import datetime
-from models.__init__ import storage
+#from models.__init__ import storage
 
 
 class BaseModel:
     """defines all common attributes/methods for other classes"""
 
     def __init__(self, *args, **kwargs):
+        from models.__init__ import storage
         """class initialization"""
         if kwargs and len(kwargs) != 0:
             for key, value in kwargs.items():
@@ -35,6 +36,7 @@ class BaseModel:
         return " ".join(result)
 
     def save(self):
+        from models.__init__ import storage
         """updates the public instance attribute
         updated_at with the current datetime"""
         self.updated_at = datetime.now()
