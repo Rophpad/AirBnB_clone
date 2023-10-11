@@ -2,7 +2,6 @@
 """defines all common attributes/methods for other classes"""
 import uuid
 from datetime import datetime
-#from models.__init__ import storage
 
 
 class BaseModel:
@@ -15,7 +14,8 @@ class BaseModel:
             for key, value in kwargs.items():
                 if key != '__class__':
                     if key in ['created_at', 'updated_at']:
-                        setattr(self, key, datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f"))
+                        v = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
+                        setattr(self, key, v)
                     else:
                         setattr(self, key, value)
         else:
@@ -30,6 +30,12 @@ class BaseModel:
         name = "[" + __class__.__name__ + "]"
         result.append(name)
         Id = '(' + self.id + ')'
+        Dict = self.__dict__
+        if not isinstance(Dict['created_at'], datetime):
+            v = Dict.get('created_at')
+            Dict['created_at'] = datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
+            v = Dict.get('updated_at')
+            Dict['updated_at'] = datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
         Dict = str(self.__dict__)
         result.append(Id)
         result.append(Dict)
