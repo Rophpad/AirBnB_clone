@@ -31,6 +31,12 @@ class FileStorage:
         file doesn’t exist"""
         try:
             with open(self.__file_path, 'r', encoding='utf-8') as f:
-                self.__objects = json.load(f)
+                data = json.load(f)
+                for key, value in data.items():
+                    class_name, obj_id = key.split('.')
+                    Dict = {k: v for k, v in value.items() if k != '__class__'}
+                    cls = globals()[class_name]
+                    obj = cls(**Dict)
+                    self.__objects[key] = obj
         except FileNotFoundError:
             pass
