@@ -4,7 +4,11 @@ JSON file to instances"""
 import json
 from models.base_model import BaseModel
 from models.user import User
-
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 class FileStorage:
     """serializes instances to a JSON file and
@@ -12,7 +16,9 @@ class FileStorage:
 
     __file_path = "file.json"
     __objects = {}
-    all_class = {"BaseModel": BaseModel, "User": User}
+    all_class = {"BaseModel": BaseModel, "User": User, "Place": Place,
+                 "City": City, "State": State, "Amenity": Amenity,
+                 "Review": Review}
 
     def all(self):
         """returns the dictionary __objects"""
