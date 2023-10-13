@@ -17,6 +17,7 @@ def parse(arg):
     """Parse user input before use it"""
     # Code
 
+
 class HBNBCommand(cmd.Cmd):
     """HBNBCommand class definition"""
     prompt = "(hbnb) "
@@ -42,7 +43,7 @@ class HBNBCommand(cmd.Cmd):
         # Code
 
     def do_show(self, arg):
-        """Prints the string representation of an instance 
+        """Prints the string representation of an instance
         based on the class name and id
         """
         # Code
