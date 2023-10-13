@@ -29,22 +29,6 @@ class BaseModel:
         """prints the class nicely"""
         return ('[{}] ({}) {}'.
                 format(self.__class__.__name__, self.id, self.__dict__))
-        """
-        result = []
-        name = "[" + __class__.__name__ + "]"
-        result.append(name)
-        Id = '(' + self.id + ')'
-        Dict = self.__dict__
-        if not isinstance(Dict['created_at'], datetime):
-            v = Dict.get('created_at')
-            Dict['created_at'] = datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
-            v = Dict.get('updated_at')
-            Dict['updated_at'] = datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
-        Dict = str(self.__dict__)
-        result.append(Id)
-        result.append(Dict)
-        return " ".join(result)
-        """
 
     def __repr__(self):
         """String representation"""
@@ -60,17 +44,6 @@ class BaseModel:
     def to_dict(self):
         """returns a dictionary containing all
         keys/values of __dict__ of the instance"""
-        """
-        Dict = self.__dict__
-        Dict['__class__'] = __class__.__name__
-        value = Dict.get('created_at')
-        value = value.strftime("%Y-%m-%dT%H:%M:%S.%f")
-        Dict['created_at'] = value
-        value = Dict.get('updated_at')
-        value = value.strftime("%Y-%m-%dT%H:%M:%S.%f")
-        Dict['updated_at'] = value
-        return Dict
-        """
         Dict = self.__dict__.copy()
         Dict["created_at"] = self.created_at.isoformat()
         Dict["updated_at"] = self.updated_at.isoformat()
