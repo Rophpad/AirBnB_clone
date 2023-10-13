@@ -15,6 +15,7 @@ from models.base_model import BaseModel
 
 def parse(arg):
     """Parse user input before use it"""
+    # Code
 
 class HBNBCommand(cmd.Cmd):
     """HBNBCommand class definition"""
@@ -38,11 +39,26 @@ class HBNBCommand(cmd.Cmd):
         Save it to JSON file
         Print the id
         """
-        try:
-        except SyntaxError:
-            print("** class name missing **")
-        except NameError:
-            print("** class doesn't exist **")
+        # Code
+
+    def do_show(self, arg):
+        """Prints the string representation of an instance 
+        based on the class name and id
+        """
+        # Code
+
+    def do_destroy(self, arg):
+        """Deletes an instance based on the class name and id"""
+        # Code
+
+    def do_all(self, arg):
+        """Prints all string repr of all instances"""
+        # Code
+
+    def do_update(self, arg):
+        """Update instance"""
+        # Code
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
