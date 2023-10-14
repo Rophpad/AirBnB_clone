@@ -15,13 +15,30 @@ from models.base_model import BaseModel
 
 def parse(arg):
     """Parse user input before use it"""
-    # Code
+    curlyBraces = re.search(r"\{(.*?)\}", arg)
+    brackets = re.search(r"\[(.*?)\]", arg)
+    if curlyBraces is None:
+        if brackets is None:
+            return [i.strip(",") for i in split(arg)]
+        else:
+            lexer = split(arg[:brackets.span()[0]])
+            rtl = [i.strip() for i in lexer]
+            rtl.append(brackets.group())
+            return rtl
+    else:
+        lexer = split(arg[:curly_braces.span()[0]])
+        rtl = [i.strip() for i in lexer]
+        rtl.append(curly_braces.group())
+        return rtl
+
 
 class HBNBCommand(cmd.Cmd):
     """HBNBCommand class definition"""
     prompt = "(hbnb) "
+    __classes = {"BaseModel", "User", "State", "City",
+                 "Place", "Amenity", "Review"}
 
-    def postloop(self):
+    def emptyline(self):
         """Postloop action"""
         pass
 
@@ -34,30 +51,79 @@ class HBNBCommand(cmd.Cmd):
         """Quit command to exit the program"""
         return True
 
-    def do_create(self, line):
+    def do_create(self, arg):
         """Creates a new instance of BaseModel
         Save it to JSON file
         Print the id
         """
-        # Code
+        args = parse(arg)
+        if len(args) == 0:
+            print("** class name  missing **")
+        elif args[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+        else:
+            print(eval(args[0])().id)
+            storage.save()
 
     def do_show(self, arg):
-        """Prints the string representation of an instance 
+        """Prints the string representation of an instance
         based on the class name and id
         """
-        # Code
+        args = parse(arg)
+        Dict = storage.all()
+        if len(args) == 0:
+            print("** class name missing **")
+        elif args[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+        elif len(args) == 1:
+            print("** instance id missing **")
+        elif "{}.{}".format(args[0], args[1]) not in Dict:
+            print("** no instance found **")
+        else:
+            print(Dict["{}.{}".format(args[0], args[1])])
 
     def do_destroy(self, arg):
         """Deletes an instance based on the class name and id"""
-        # Code
+        args = parse(arg)
+        Dict = storage.all()
+        if len(args) == 0:
+            print("** class name missing **")
+        elif args[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+        elif len(args) == 1:
+            print("** instance id doesn't exist **")
+        elif "{}.{}".format(args[0], args[1]) not in Dict:
+            print("** no instance found **")
+        else:
+            del Dict["{}.{}".format(args[0], args[1])]
+            storage.save()
 
     def do_all(self, arg):
         """Prints all string repr of all instances"""
-        # Code
+        args = parse(arg)
+        if len(args) > 0 and args[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+        else:
+            all_obj = []
+            for obj in storage.all().values():
+                if len(args) > 0 and args[0] == obj.__class__.__name__:
+                    all_obj.append(obj.__str__())
+                elif len(args) == 0:
+                    all_obj.append(obj.__str__())
+                print(all_obj)
 
     def do_update(self, arg):
         """Update instance"""
         # Code
+
+    def do_count(self, arg):
+        """Retrieve the number of instances of a class"""
+        args = parse(arg)
+        count = 0
+        for obj in storage.all().values():
+            if argl[0] == obj.__class__.__name__:
+                count += 1
+        print(count)
 
 
 if __name__ == "__main__":
