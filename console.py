@@ -15,12 +15,28 @@ from models.base_model import BaseModel
 
 def parse(arg):
     """Parse user input before use it"""
-    # Code
+    curlyBraces = re.search(r"\{(.*?)\}", arg)
+    brackets = re.search(r"\[(.*?)\]", arg)
+    if curlyBraces is None:
+        if brackets is None:
+            return [i.strip(",") for i in split(arg)]
+        else:
+            lexer = split(arg[:brackets.span()[0]])
+            rtl = [i.strip() for i in lexer]
+            rtl.append(brackets.group())
+            return rtl
+    else:
+        lexer = split(arg[:curly_braces.span()[0]])
+        rtl = [i.strip() for i in lexer]
+        rtl.append(curly_braces.group())
+        return rtl
 
 
 class HBNBCommand(cmd.Cmd):
     """HBNBCommand class definition"""
     prompt = "(hbnb) "
+    __classes = {"BaseModel", "User", "State", "City",
+                 "Place", "Amenity", "Review"}
 
     def emptyline(self):
         """Postloop action"""
@@ -35,12 +51,19 @@ class HBNBCommand(cmd.Cmd):
         """Quit command to exit the program"""
         return True
 
-    def do_create(self, line):
+    def do_create(self, arg):
         """Creates a new instance of BaseModel
         Save it to JSON file
         Print the id
         """
-        # Code
+        args = parse(arg)
+        if len(args) == 0:
+            print("** class name  missing **")
+        elif args[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+        else:
+            print(eval(args[0])().id)
+            storage.save()
 
     def do_show(self, arg):
         """Prints the string representation of an instance
