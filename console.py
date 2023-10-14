@@ -80,7 +80,7 @@ class HBNBCommand(cmd.Cmd):
         elif "{}.{}".format(args[0], args[1]) not in Dict:
             print("** no instance found **")
         else:
-             print(Dict["{}.{}".format(args[0], args[1])])
+            print(Dict["{}.{}".format(args[0], args[1])])
 
     def do_destroy(self, arg):
         """Deletes an instance based on the class name and id"""
@@ -114,6 +114,10 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, arg):
         """Update instance"""
+        # Code
+
+    def do_count(self, arg):
+        """Retrieve the number of instances of a class"""
         # Code
 
 
