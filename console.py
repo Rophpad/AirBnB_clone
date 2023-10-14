@@ -114,7 +114,48 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, arg):
         """Update instance"""
-        # Code
+        args = parse(arg)
+        Dicts = storage.all()
+
+        if len(args) == 0:
+            print("** class name missing **")
+            return False
+        elif args[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+            return False
+        elif len(args) == 1:
+            print("** instance id missing **")
+            return False
+        elif "{}.{}".format(args[0], args[1]) not in Dicts:
+            print("** no instance found **")
+            return False
+        elif len(args) == 2:
+            print("** attribute name missing **")
+            return False
+        elif len(args) == 3:
+            try:
+                type(eval(args[2])) != dict
+            except NameError:
+                print("** value missing **")
+                return False
+        elif len(args) == 4:
+            obj = Dicts["{}.{}".format(args[0], args[1])]
+            if args[2] in obj.__class__.__dict__.keys():
+                val_type = type(obj.__class__.__dict__[args[2]])
+                obj.__dict__[args[2]] = val_type(args[3])
+            else:
+                obj.__dict__[args[2]] = args[3]
+        elif type(eval(args[2])) == dict:
+            obj = Dicts["{}.{}".format(args[0], args[1])]
+            for k, v in eval(args[2]).items():
+                kkeys = k in obj.__class__.__dict__.keys()
+                type_in = type(obj.__class__.__dict__[k]) in {str, int, float}
+                if (kkeys and type_in):
+                    val_type = type(obj.__class__.__dict__[k])
+                    obj.__dict__[k] = val_type(v)
+                else:
+                    obj.__dict__[k] = v
+        storage.save()
 
     def do_count(self, arg):
         """Retrieve the number of instances of a class"""
