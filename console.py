@@ -22,7 +22,7 @@ class HBNBCommand(cmd.Cmd):
     """HBNBCommand class definition"""
     prompt = "(hbnb) "
 
-    def postloop(self):
+    def emptyline(self):
         """Postloop action"""
         pass
 
