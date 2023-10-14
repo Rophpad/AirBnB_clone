@@ -100,7 +100,17 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, arg):
         """Prints all string repr of all instances"""
-        
+        args = parse(arg)
+        if len(args) > 0 and args[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+        else:
+            all_obj = []
+            for obj in storage.all().values():
+                if len(args) > 0 and args[0] == obj.__class__.__name__:
+                    all_obj.append(obj.__str__())
+                elif len(args) == 0:
+                    all_obj.append(obj.__str__())
+                print(all_obj)
 
     def do_update(self, arg):
         """Update instance"""
