@@ -20,11 +20,6 @@ class TestFileStorage(unittest.TestCase):
     """test class for file storage"""
     the_model = BaseModel()
 
-    # classes = {
-    #    "BaseModel": BaseModel, "User": User, "State": State "Place": Place
-    #    "City": City "Review": Review "Amenity": Amenity
-    # }
-
     def test_all(self):
         """test the all method"""
         all_objs = storage.all()
@@ -50,12 +45,16 @@ class TestFileStorage(unittest.TestCase):
         """tests if storage is an instance of FileStorage"""
         self.assertEqual(type(storage).__name__, "FileStorage")
 
-    # def test_new(self):
-    #    """tests the new method"""
-    #    stored_obj = storage.new(TestFileStorage.my_model)
-    #    self.assertIn(stored_obj, storage.all())
-    #    self.assertEqual(TestFileStorage.my_model,\
-    # storage.all()["BaseModel.{}".format(TestFileStorage.my_model.id)])
+    def test_new(self):
+        """tests the new method to check if it saves an obj to
+        __objects dictionary with the format <classname>.id"""
+        self.assertIn("{}.{}".format("BaseModel", TestFileStorage.my_model.id),
+                      storage._FileStorage__objects)
+
+    def test_reload(self):
+        """tests the reload method"""
+        storage._FileStorage__file_path = "hamida.json"
+        storage.reload()
 
 
 if __name__ == "__main__":
