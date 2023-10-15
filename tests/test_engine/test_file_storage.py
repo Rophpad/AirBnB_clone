@@ -20,10 +20,10 @@ class TestFileStorage(unittest.TestCase):
     """test class for file storage"""
     the_model = BaseModel()
 
-    #classes = {
+    # classes = {
     #    "BaseModel": BaseModel, "User": User, "State": State "Place": Place
     #    "City": City "Review": Review "Amenity": Amenity
-    #}
+    # }
 
     def test_all(self):
         """test the all method"""
@@ -54,7 +54,9 @@ class TestFileStorage(unittest.TestCase):
     #    """tests the new method"""
     #    stored_obj = storage.new(TestFileStorage.my_model)
     #    self.assertIn(stored_obj, storage.all())
-    #    self.assertEqual(TestFileStorage.my_model, storage.all()["BaseModel.{}".format(TestFileStorage.my_model.id)])
+    #    self.assertEqual(TestFileStorage.my_model,\
+    # storage.all()["BaseModel.{}".format(TestFileStorage.my_model.id)])
+
 
 if __name__ == "__main__":
     unittest.main()
