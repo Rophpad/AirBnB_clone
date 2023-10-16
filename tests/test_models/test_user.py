@@ -32,8 +32,8 @@ class TestUser(unittest.TestCase):
             "email", "password", "first_name", "last_name"
         ]
         for attribute in attributes_to_check:
-            default_val = ""
-            self.assertEqual(getattr(TestUser.the_user, attribute), default_val)
+            default = ""
+            self.assertEqual(getattr(TestUser.the_user, attribute), default)
 
     def test_user_print(self):
         """tests the format the user is printed in"""

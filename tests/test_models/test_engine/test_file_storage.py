@@ -18,7 +18,7 @@ from models.state import State
 
 class TestFileStorage(unittest.TestCase):
     """test class for file storage"""
-    the_model = BaseModel()
+    model = BaseModel()
 
     def test_all(self):
         """test the all method"""
@@ -31,14 +31,14 @@ class TestFileStorage(unittest.TestCase):
 
     def test_save(self):
         """test updated save method"""
-        self.the_model.name = "My_First_Model"
-        self.the_model.my_number = 89
-        self.the_model.save()
+        self.model.name = "My_First_Model"
+        self.model.my_number = 89
+        self.model.save()
         with patch('sys.stdout', new_callable=io.StringIO) as mock_stdout:
-            print(self.the_model)
+            print(self.model)
         expected_output = (
-            "[BaseModel] ({}) ".format(self.the_model.id) +
-            "{}".format(self.the_model.__dict__)
+            "[BaseModel] ({}) ".format(self.model.id) +
+            "{}".format(self.model.__dict__)
         )
 
     def test_storage_instance(self):
@@ -48,13 +48,18 @@ class TestFileStorage(unittest.TestCase):
     def test_new(self):
         """tests the new method to check if it saves an obj to
         __objects dictionary with the format <classname>.id"""
-        self.assertIn("{}.{}".format("BaseModel", TestFileStorage.my_model.id),
+        self.assertIn("{}.{}".format("BaseModel", TestFileStorage.model.id),
                       storage._FileStorage__objects)
 
     def test_reload(self):
         """tests the reload method"""
         storage._FileStorage__file_path = "hamida.json"
         storage.reload()
+
+    def test_attributes(self):
+        """tests attributes present in file storage"""
+        self.assertTrue(hasattr(FileStorage, "_FileStorage__file_path"))
+        self.assertTrue(hasattr(FileStorage, "_FileStorage__objects"))
 
 
 if __name__ == "__main__":
