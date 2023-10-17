@@ -91,7 +91,7 @@ class HBNBCommand(cmd.Cmd):
         elif args[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         elif len(args) == 1:
-            print("** instance id doesn't exist **")
+            print("** instance id missing **")
         elif "{}.{}".format(args[0], args[1]) not in Dict:
             print("** no instance found **")
         else:
