@@ -58,7 +58,7 @@ class HBNBCommand(cmd.Cmd):
         """
         args = parse(arg)
         if len(args) == 0:
-            print("** class name  missing **")
+            print("** class name missing **")
         elif args[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         else:
@@ -165,6 +165,50 @@ class HBNBCommand(cmd.Cmd):
             if argl[0] == obj.__class__.__name__:
                 count += 1
         print(count)
+
+    def default(self, arg):
+        """handle special case command"""
+        show = r'show\("([^"]*)"\)'
+        destroy = r'destroy\("([^"]*)"\)'
+        update = r'update\("([^"]*)", ?"([^"]*)", ?"([^"]*)"\)'
+        update_v2 = r'update\("([^"]*)", ?(\{[^}]+\})'
+        cmd_arg = ['all()', 'count()', show, destroy, update, update_v2]
+        if arg:
+            _class, method = arg.split('.')
+            if _class in HBNBCommand.__classes:
+                if method == cmd_arg[0]:
+                    for k, v in storage.all().items():
+                        key, _ = k.split('.')
+                        if key == _class:
+                            print(v)
+                elif method == cmd_arg[1]:
+                    count = 0
+                    for k in storage.all():
+                        key, _ = k.split('.')
+                        if key == _class:
+                            count += 1
+                    print(count)
+                elif re.search(cmd_arg[2], method) is not None:
+                    Id = (re.search(cmd_arg[2], method)).group(1)
+                    arg = '{} {}'.format(_class, Id)
+                    self.do_show(arg)
+                elif re.search(cmd_arg[3], method) is not None:
+                    Id = (re.search(cmd_arg[3], method)).group(1)
+                    arg = '{} {}'.format(_class, Id)
+                    self.do_destroy(arg)
+                elif re.search(cmd_arg[4], method) is not None:
+                    Id = (re.search(cmd_arg[4], method)).group(1)
+                    key = (re.search(cmd_arg[4], method)).group(2)
+                    value = (re.search(cmd_arg[4], method)).group(3)
+                    arg = '{} {} {} {}'.format(_class, Id, key, value)
+                    self.do_update(arg)
+                elif re.search(cmd_arg[5], method) is not None:
+                    Id = (re.search(cmd_arg[5], method)).group(1)
+                    Dict = (re.search(cmd_arg[5], method)).group(2)
+                    Dict = eval(Dict)
+                    for key, value in Dict.items():
+                        arg = '{} {} {} {}'.format(_class, Id, key, value)
+                        self.do_update(arg)
 
 
 if __name__ == "__main__":
